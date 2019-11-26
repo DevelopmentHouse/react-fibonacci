@@ -1,13 +1,18 @@
 # react-production 
 
-### Dev
+### Dev Container
 
 TODO
 
-### Test
+### Test Container
 
 TODO
 
-### Deployment
+### Production Container
 
-TODO
+```shell
+docker build reactprod:latest .
+docker run -p 8080:80 reactprod
+```
+
+### Orchestration
