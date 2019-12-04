@@ -1,61 +1,45 @@
 version: '3'
 services:
+  postgres:
+    image: 'postgres:latest'
+  redis:
+    image: 'redis:latest'
   nginx:
     restart: always
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '4000:80'
-  postgres:
-    image: 'postgres:latest'
-    restart: always
-    ports:
-      - "5432:5432"
-    volumes:
-      - .:/data
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=fibonacci
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-  redis:
-    image: 'redis:latest'
+      - '3050:80'
   api:
-    depends_on:
-      - postgres
     build:
-      dockerfile: Dockerfile
-      context: ./api
-    ports:
-      - "5000:5000"
+      dockerfile: Dockerfile.dev
+      context: ./server
     volumes:
       - /app/node_modules
-      - ./api:/app
+      - ./server:/app
     environment:
-      - DB_HOST=postgres
-      - DB_USER=postgres
-      - DB_NAME=fib-calc
-    depends_on:
-      - postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
   client:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./client
     volumes:
       - /app/node_modules
       - ./client:/app
-  workers:
+  worker:
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./worker
     volumes:
       - /app/node_modules
       - ./worker:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379

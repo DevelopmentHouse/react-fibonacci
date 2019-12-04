@@ -1,3 +1,13 @@
+# Adding Environment Secrets
+
+```
+kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf
+
+kubectl create secret tls
+
+kubectl create secret docker-registry
+```
+
 # Removing Images
 
 Constantly creating images can start to add up in storage consumption. Periodically you may wish to either remove just the data not associated with a container or you can remove all data.
