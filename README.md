@@ -8,6 +8,24 @@ kubectl create secret tls
 kubectl create secret docker-registry
 ```
 
+# Azure Ingress-NGINX
+
+https://kubernetes.github.io/ingress-nginx/deploy/#azure
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
+```
+
+# Cert Manager
+
+Apply the latest release of cert-manager https://github.com/jetstack/cert-manager
+
+```
+kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
+
+
+```
+
 # Removing Images
 
 Constantly creating images can start to add up in storage consumption. Periodically you may wish to either remove just the data not associated with a container or you can remove all data.
