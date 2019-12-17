@@ -16,6 +16,28 @@ https://kubernetes.github.io/ingress-nginx/deploy/#azure
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
 ```
 
+Create the namespace for cert-manager
+
+```
+kubectl create namespace cert-manager
+```
+
+```
+helm repo add jetstack https://charts.jetstack.io
+```
+
+```
+helm repo update
+```
+
+```
+helm install \
+  --name cert-manager \
+  --namespace cert-manager \
+  --version v0.11.0 \
+  jetstack/cert-manager
+```
+
 # Cert Manager
 
 Apply the latest release of cert-manager https://github.com/jetstack/cert-manager
