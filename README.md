@@ -1,11 +1,11 @@
 # Adding Environment Secrets
 
 ```
-kubectl create secret generic pgpassword --from-literal PGPASSWORD=12345asdf
+kubectl --kubeconfig=k8s-kubeconfig.yml create secret generic pgpassword --from-literal PGPASSWORD=CHANGEME
 
-kubectl create secret tls
+kubectl --kubeconfig=k8s-kubeconfig.yml create secret tls
 
-kubectl create secret docker-registry
+kubectl --kubeconfig=k8s-kubeconfig.yml create secret docker-registry
 ```
 
 # Azure Ingress-NGINX
@@ -13,40 +13,36 @@ kubectl create secret docker-registry
 https://kubernetes.github.io/ingress-nginx/deploy/#azure
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
-```
-
-Create the namespace for cert-manager
-
-```
-kubectl create namespace cert-manager
+kubectl --kubeconfig=k8s-kubeconfig.yml apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/mandatory.yaml
 ```
 
 ```
-helm repo add jetstack https://charts.jetstack.io
-```
-
-```
-helm repo update
-```
-
-```
-helm install \
-  --name cert-manager \
-  --namespace cert-manager \
-  --version v0.11.0 \
-  jetstack/cert-manager
+kubectl --kubeconfig=k8s-kubeconfig.yml apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud-generic.yaml
 ```
 
 # Cert Manager
 
+Create a namespace for cert-manager
+
+```
+kubectl --kubeconfig=k8s-kubeconfig.yml create namespace cert-manager
+```
+
 Apply the latest release of cert-manager https://github.com/jetstack/cert-manager
 
 ```
-kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
-
+kubectl --kubeconfig=k8s-kubeconfig.yml apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
+```
 
 ```
+kubectl --kubeconfig=k8s-kubeconfig.yml apply -f k8s/certificate.yaml
+```
+
+```
+kubectl --kubeconfig=k8s-kubeconfig.yml apply -f k8s/issuer.yaml
+```
+
+
 
 # Removing Images
 

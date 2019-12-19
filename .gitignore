@@ -9,6 +9,7 @@ node_modules/
 coverage/
 
 # production
+k8s-kubeconfig.yml
 build/
 
 # misc
