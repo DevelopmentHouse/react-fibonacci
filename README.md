@@ -1,3 +1,5 @@
+[![SSL Rating](https://sslbadge.org/?domain=fibonacci.development.house)](https://www.ssllabs.com/ssltest/analyze.html?d=fibonacci.development.house)
+
 # Adding Environment Secrets
 
 ```
